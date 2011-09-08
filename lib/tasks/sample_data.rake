@@ -3,6 +3,7 @@ namespace :db do
   task :populate => :environment do
     Rake::Task['db:reset'].invoke
     make_users
+    make_currencies
   end
 end
 
@@ -17,6 +18,13 @@ def make_users
     User.create!(:login => login,
                  :password => password,
                  :password_confirmation => password)
+  end
+end
+
+def make_currencies
+  symbols  = ['USD', 'EUR', 'UAH', 'RUR']
+  symbols.each do |n|
+    Currency.create!(:symbol => n)
   end
 end
 
