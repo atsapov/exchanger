@@ -1,0 +1,13 @@
+<h1>My purse</h1>
+
+<%= form_for(@purse, :url => up_output_path) do |f| %>
+  <%= render 'shared/error_messages', :object => f.object %>
+  <div class="field">
+    <%= f.label 'Output' %><br />
+    <%= f.text_field :output %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Output" %>
+  </div>
+<% end %>
+

@@ -1,0 +1,18 @@
+<tr>
+  <td>
+    <%= Currency.find_by_id(purse.currency_id).symbol %>
+  </td>
+  <td>
+    <%= purse.content %>
+  </td>
+  <td>
+    <%= link_to "Put", put_path(:id => purse.id) %>
+  </td>
+  <td>
+    <%= link_to "Output", output_path(:id => purse.id) %>
+  </td>
+  <td>
+    <%= link_to "delete", purse, :method => :delete %>
+  </td>
+</tr>
+

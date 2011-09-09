@@ -10,13 +10,27 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110908084143) do
+ActiveRecord::Schema.define(:version => 20110908094945) do
 
   create_table "currencies", :force => true do |t|
     t.string   "symbol"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "purses", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "currency_id"
+    t.float    "content"
+    t.float    "put"
+    t.float    "output"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "purses", ["currency_id"], :name => "index_purses_on_currency_id"
+  add_index "purses", ["user_id", "currency_id"], :name => "index_purses_on_user_id_and_currency_id", :unique => true
+  add_index "purses", ["user_id"], :name => "index_purses_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "login"

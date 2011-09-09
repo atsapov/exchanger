@@ -1,6 +1,7 @@
 Exchanger::Application.routes.draw do
 
   resources :users
+  resources :purses
   resources :sessions, :only => [:new, :create, :destroy]
 
   root :to => "pages#home"
@@ -8,6 +9,11 @@ Exchanger::Application.routes.draw do
   match '/signup',  :to => 'users#new'
   match '/signin',  :to => 'sessions#new'
   match '/signout', :to => 'sessions#destroy'
+
+  match 'purses/:id/put'    => 'purses#put',    :as => :put
+  match 'purses/:id/output' => 'purses#output', :as => :output
+  match 'purses/:id/up_put' => 'purses#up_put', :as => :up_put
+  match 'purses/:id/up_output' => 'purses#up_output', :as => :up_output
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

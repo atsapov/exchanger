@@ -1,0 +1,19 @@
+<h1>New purse</h1>
+
+<%= form_for(@purse) do |f| %>
+  <%= render 'shared/error_messages', :object => f.object %>
+  <div class="field">
+    <%= f.label 'Select the curency' %><br />
+    <% c_array = [] %>
+    <% Currency.all.map do |currency| %>
+      <% if current_user.purses.find_by_currency_id(currency.id).nil? %>
+        <% c_array << [currency.symbol, currency.id] %>
+      <% end %>
+    <% end %>
+    <%= f.select(:currency_id, options_for_select(c_array)) %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Create" %>
+  </div>
+<% end %>
+

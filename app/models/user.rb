@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   attr_accessor :password
   attr_accessible :login, :password, :password_confirmation
 
+  has_many :purses, :dependent => :destroy
+
   validates :login, :presence   => true,
                     :length     => { :maximum => 20 },
                     :uniqueness => { :case_sensitive => false }
