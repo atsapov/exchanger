@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     if @user.save
       sign_in @user
       flash[:success] = "Welcome to Exchanger!"
-      redirect_to '#'
+      redirect_to purses_path
     else
       render 'new'
     end

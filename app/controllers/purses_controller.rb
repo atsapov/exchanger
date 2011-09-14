@@ -1,4 +1,6 @@
 class PursesController < ApplicationController
+  before_filter :current_purse, :except => [:index, :new, :create]
+  before_filter :no_money, :only => :up_output
 
   def index
     @purses = current_user.purses
@@ -10,10 +12,7 @@ class PursesController < ApplicationController
 
   def create
     @purse = Purse.new(params[:purse])
-    @purse.user_id = current_user.id
-    @purse.content = 0
-    @purse.put = 0
-    @purse.output = 0
+    @purse.initial(current_user.id)
     if @purse.save
       flash[:success] = "The purse is created!"
       redirect_to purses_path
@@ -23,19 +22,14 @@ class PursesController < ApplicationController
   end
 
   def put
-    @purse = Purse.find(params[:id])
   end
 
   def output
-    @purse = Purse.find(params[:id])
   end
 
   def up_put
-    @purse = Purse.find(params[:id])
     if @purse.update_attributes(params[:purse])
-      @purse.content += @purse.put
-      @purse.put = 0
-      @purse.save
+      @purse.put_money
       flash[:success] = "Money has been put."
       redirect_to purses_path
     else
@@ -44,26 +38,31 @@ class PursesController < ApplicationController
   end
 
   def up_output
-    @purse = Purse.find(params[:id])
-    if params[:purse][:output].to_f > @purse.content
-      flash[:error] = "You don't have so much money..."
-      render 'output'
+    if @purse.update_attributes(params[:purse])
+      @purse.output_money
+      flash[:success] = "Money has been outputted."
+      redirect_to purses_path
     else
-      if @purse.update_attributes(params[:purse])
-        @purse.content -= @purse.output
-        @purse.output = 0
-        @purse.save
-        flash[:success] = "Money has been outputted."
-        redirect_to purses_path
-      else
-        render 'output'
-      end
+      render 'output'
     end
   end
 
   def destroy
-    Purse.find(params[:id]).destroy
+    @purse.destroy
     flash[:success] = "Purse deleted."
     redirect_to purses_path
   end
+
+  private
+
+    def current_purse
+      @purse = Purse.find(params[:id])
+    end
+
+    def no_money
+      if params[:purse][:output].to_f > @purse.content
+        flash[:error] = "You don't have so much money..."
+        render 'output'
+      end
+    end
 end
