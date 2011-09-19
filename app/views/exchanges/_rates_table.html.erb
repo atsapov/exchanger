@@ -1,0 +1,10 @@
+<table>
+  <tr>
+    <td></td>
+    <% @currencies.each do |currency| %>
+      <td><%= currency.symbol %></td>
+    <% end %>
+  </tr>
+  <%= render @currencies %>
+</table>
+

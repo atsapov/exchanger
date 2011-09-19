@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_filter :signed_user
 
   def new
     @user = User.new
@@ -14,4 +15,10 @@ class UsersController < ApplicationController
       render 'new'
     end
   end
+
+  private
+
+    def signed_user
+      redirect_to purses_path if signed_in?
+    end
 end

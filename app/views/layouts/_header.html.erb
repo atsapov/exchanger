@@ -2,14 +2,14 @@
   <nav class="round">
     <ul>
       <li><%= link_to "Home", root_path %></li>
-      <li><%= link_to "Kyrsu valyt", '#' %></li>
       <% if signed_in? %>
-      <li><%= link_to "My purses", purses_path %></li>
-      <li><%= link_to "Obmenat valyty", '#' %></li>
-      <li><%= link_to "Sign out", signout_path, :method => :delete %></li>
+        <li><%= link_to "My purses", purses_path %></li>
+        <li><%= link_to "Exchange currency", change_path %></li>
+        <li><%= link_to "Sign out", signout_path, :method => :delete %></li>
       <% else %>
-      <li><%= link_to "Sign in", signin_path %></li>
-      <li><%= link_to "Sign up", signup_path %></li>
+        <li><%= link_to "Rates", exchanges_path %></li>
+        <li><%= link_to "Sign in", signin_path %></li>
+        <li><%= link_to "Sign up", signup_path %></li>
       <% end %>
     </ul>
   </nav>

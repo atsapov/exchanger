@@ -5,7 +5,7 @@
   <div class="field">
     <%= f.label 'Select the curency' %><br />
     <% c_array = [] %>
-    <% Currency.all.map do |currency| %>
+    <% Currency.all.each do |currency| %>
       <% if current_user.purses.find_by_currency_id(currency.id).nil? %>
         <% c_array << [currency.symbol, currency.id] %>
       <% end %>

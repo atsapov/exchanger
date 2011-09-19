@@ -1,6 +1,6 @@
 <tr>
   <td>
-    <%= Currency.find_by_id(purse.currency_id).symbol %>
+    <%= Currency.find(purse.currency_id).symbol %>
   </td>
   <td>
     <%= purse.content %>

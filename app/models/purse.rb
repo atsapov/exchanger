@@ -1,14 +1,17 @@
 class Purse < ActiveRecord::Base
-#  attr_accessible :user_id, :currency_id, :content, :put, :output
-#  attr_accessor :user_id, :currency_id, :content, :put, :output
 
   belongs_to :user
   belongs_to :currency
 
-  validates :user_id, :presence   => true
-  validates :currency_id, :presence   => true
-  validates :put, :inclusion => { :in => 0..1000000 }
-  validates :output, :inclusion => { :in => 0..1000 }
+  validates :user_id,     :presence => true
+  validates :currency_id, :presence => true
+  validates :content, :numericality => {:greater_than_or_equal_to => 0}
+  validates :put,     :numericality => {:greater_than => 0}, :on => :update, 
+                      :if => "output == 0"
+  validates :output,  :numericality => {:greater_than => 0}, :on => :update, 
+                      :if => "put == 0"
+
+  before_update :round_value
 
   def initial(user_id)
     self.user_id = user_id
@@ -18,14 +21,19 @@ class Purse < ActiveRecord::Base
   end
 
   def put_money
-    self.content += self.put
-    self.put = 0
-    self.save
+    Purse.update_counters(self.id, :content => self.put, :put => -self.put)
   end
 
   def output_money
-    self.content -= self.output
-    self.output = 0
-    self.save
+    Purse.update_counters(self.id, :content => -self.output, 
+                          :output => -self.output)
   end
+
+  private
+
+    def round_value
+      self.content = self.content.round(2)
+      self.put = self.put.round(2)
+      self.output = self.output.round(2)
+    end
 end

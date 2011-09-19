@@ -2,6 +2,7 @@ Exchanger::Application.routes.draw do
 
   resources :users
   resources :purses
+  resources :exchanges
   resources :sessions, :only => [:new, :create, :destroy]
 
   root :to => "pages#home"
@@ -9,6 +10,9 @@ Exchanger::Application.routes.draw do
   match '/signup',  :to => 'users#new'
   match '/signin',  :to => 'sessions#new'
   match '/signout', :to => 'sessions#destroy'
+
+  match '/change',    :to => 'exchanges#change'
+  match '/up_change', :to => 'exchanges#up_change'
 
   match 'purses/:id/put'    => 'purses#put',    :as => :put
   match 'purses/:id/output' => 'purses#output', :as => :output

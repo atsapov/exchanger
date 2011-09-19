@@ -1,0 +1,17 @@
+<tr>
+  <td>
+    <%= currency.symbol %>
+  </td>
+  <% if currency.id == 1 %>
+    <td>-</td>
+  <% end %>
+  <% currency.sold.each do |sold| %>
+    <td>
+      <%= currency.rate(sold) %>
+    </td>
+    <% if currency.id == sold.id+1 %>
+      <td>-</td>
+    <% end %>
+  <% end %>
+</tr>
+

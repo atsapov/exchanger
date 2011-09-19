@@ -1,5 +1,6 @@
 class PursesController < ApplicationController
-  before_filter :current_purse, :except => [:index, :new, :create]
+  before_filter :authenticate
+  before_filter :correct_user, :except => [:index, :new, :create]
   before_filter :no_money, :only => :up_output
 
   def index
@@ -54,6 +55,11 @@ class PursesController < ApplicationController
   end
 
   private
+
+    def correct_user
+      @user = User.find(current_purse.user_id)
+      redirect_to purses_path unless current_user?(@user)
+    end
 
     def current_purse
       @purse = Purse.find(params[:id])
