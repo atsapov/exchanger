@@ -6,9 +6,12 @@ class Purse < ActiveRecord::Base
   validates :user_id,     :presence => true
   validates :currency_id, :presence => true
   validates :content, :numericality => {:greater_than_or_equal_to => 0}
-  validates :put,     :numericality => {:greater_than => 0}, :on => :update, 
+  validates :put,     :numericality => {:greater_than => 0},
+                      :on => :update, 
                       :if => "output == 0"
-  validates :output,  :numericality => {:greater_than => 0}, :on => :update, 
+  validates :output,  :numericality => {:greater_than => 0,
+                                        :less_than_or_equal_to => :content}, 
+		      :on => :update, 
                       :if => "put == 0"
 
   before_update :round_value

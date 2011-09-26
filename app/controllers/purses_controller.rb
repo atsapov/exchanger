@@ -1,7 +1,6 @@
 class PursesController < ApplicationController
   before_filter :authenticate
   before_filter :correct_user, :except => [:index, :new, :create]
-  before_filter :no_money, :only => :up_output
 
   def index
     @purses = current_user.purses
@@ -63,12 +62,5 @@ class PursesController < ApplicationController
 
     def current_purse
       @purse = Purse.find(params[:id])
-    end
-
-    def no_money
-      if params[:purse][:output].to_f > @purse.content
-        flash[:error] = "You don't have so much money..."
-        render 'output'
-      end
     end
 end
