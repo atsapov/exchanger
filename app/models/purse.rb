@@ -14,14 +14,8 @@ class Purse < ActiveRecord::Base
 		      :on => :update, 
                       :if => "put == 0"
 
+  before_validation :initial, :if => :new_record?
   before_update :round_value
-
-  def initial(user_id)
-    self.user_id = user_id
-    self.content = 0
-    self.put = 0
-    self.output = 0
-  end
 
   def put_money
     Purse.update_counters(self.id, :content => self.put, :put => -self.put)
@@ -33,6 +27,12 @@ class Purse < ActiveRecord::Base
   end
 
   private
+
+    def initial
+      self.content = 0
+      self.put = 0
+      self.output = 0
+    end
 
     def round_value
       self.content = self.content.round(2)

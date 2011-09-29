@@ -11,8 +11,7 @@ class PursesController < ApplicationController
   end
 
   def create
-    @purse = Purse.new(params[:purse])
-    @purse.initial(current_user.id)
+    @purse = current_user.purses.build(params[:purse])
     if @purse.save
       flash[:success] = "The purse is created!"
       redirect_to purses_path
