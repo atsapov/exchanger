@@ -6,10 +6,10 @@
     <%= purse.content %>
   </td>
   <td>
-    <%= link_to "Put", put_path(:id => purse.id) %>
+    <%= link_to "Put", put_path(:id => purse) %>
   </td>
   <td>
-    <%= link_to "Output", output_path(:id => purse.id) %>
+    <%= link_to "Output", output_path(:id => purse) %>
   </td>
   <td>
     <%= link_to "delete", purse, :method => :delete %>

@@ -21,7 +21,8 @@ ActiveRecord::Schema.define(:version => 20110915134122) do
   create_table "exchanges", :force => true do |t|
     t.integer  "bought_id"
     t.integer  "sold_id"
-    t.float    "rate"
+    t.float    "bought_rate"
+    t.float    "sold_rate"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -30,8 +31,6 @@ ActiveRecord::Schema.define(:version => 20110915134122) do
     t.integer  "user_id"
     t.integer  "currency_id"
     t.float    "content"
-    t.float    "put"
-    t.float    "output"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

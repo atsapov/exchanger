@@ -28,7 +28,7 @@ class PursesController < ApplicationController
 
   def up_put
     if @purse.update_attributes(params[:purse])
-      @purse.put_money
+      @purse.put_output(@purse.money)
       flash[:success] = "Money has been put."
       redirect_to purses_path
     else
@@ -37,8 +37,8 @@ class PursesController < ApplicationController
   end
 
   def up_output
-    if @purse.update_attributes(params[:purse])
-      @purse.output_money
+    if @purse.update_attributes(params[:purse]) and
+       @purse.put_output(-@purse.money)
       flash[:success] = "Money has been outputted."
       redirect_to purses_path
     else
@@ -55,7 +55,7 @@ class PursesController < ApplicationController
   private
 
     def correct_user
-      @user = User.find(current_purse.user_id)
+      @user = current_purse.user
       redirect_to purses_path unless current_user?(@user)
     end
 

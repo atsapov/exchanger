@@ -2,16 +2,16 @@
   <td>
     <%= currency.symbol %>
   </td>
-  <% if currency.id == 1 %>
-    <td>-</td>
+  <% currency.bought.each do |bought| %>
+    <td>
+      <%= bought.find_exchange(currency).sold_rate %>
+    </td>
   <% end %>
+  <td>-</td>
   <% currency.sold.each do |sold| %>
     <td>
-      <%= currency.rate(sold) %>
+      <%= currency.find_exchange(sold).bought_rate %>
     </td>
-    <% if currency.id == sold.id+1 %>
-      <td>-</td>
-    <% end %>
   <% end %>
 </tr>
 

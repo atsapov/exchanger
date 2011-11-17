@@ -6,8 +6,23 @@ module CurrenciesHelper
       @currencies = Currency.all
     end
 
-    def define_symbols
-      @bought_symbol = Currency.find(@exchange.bought_id).symbol
-      @sold_symbol = Currency.find(@exchange.sold_id).symbol
+    def user_currencies_array
+      c_array = []
+      Currency.all.each do |currency|
+        if current_user.purses.find_by_currency_id(currency)
+          c_array << [currency.symbol, currency.id]
+        end
+      end
+      c_array
+    end
+
+    def no_user_currencies_array
+      c_array = []
+      Currency.all.each do |currency|
+        if current_user.purses.find_by_currency_id(currency).nil?
+          c_array << [currency.symbol, currency.id]
+        end
+      end
+      c_array
     end
 end

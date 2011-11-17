@@ -1,42 +1,55 @@
 class Purse < ActiveRecord::Base
+  attr_accessor :money
 
   belongs_to :user
   belongs_to :currency
 
   validates :user_id,     :presence => true
   validates :currency_id, :presence => true
-  validates :content, :numericality => {:greater_than_or_equal_to => 0}
-  validates :put,     :numericality => {:greater_than => 0},
-                      :on => :update, 
-                      :if => "output == 0"
-  validates :output,  :numericality => {:greater_than => 0,
-                                        :less_than_or_equal_to => :content}, 
-		      :on => :update, 
-                      :if => "put == 0"
+  validates :money,       :numericality => {:greater_than => 0},
+                          :allow_nil => true
 
-  before_validation :initial, :if => :new_record?
-  before_update :round_value
+  validate :content_validate
 
-  def put_money
-    Purse.update_counters(self.id, :content => self.put, :put => -self.put)
+  after_validation :money_to_f
+
+  def put_output(money)
+    self.content += money.round(2)
+    self.save
   end
 
-  def output_money
-    Purse.update_counters(self.id, :content => -self.output, 
-                          :output => -self.output)
+  def has_money?(money)
+    @money = money
+    self.put_output(-money)
   end
 
   private
 
-    def initial
-      self.content = 0
-      self.put = 0
-      self.output = 0
+    def content_validate
+      message if self.content < 0
     end
 
-    def round_value
-      self.content = self.content.round(2)
-      self.put = self.put.round(2)
-      self.output = self.output.round(2)
+    def message
+      if self.user.admin?
+        admin_has_no_money
+      else
+        user_has_no_money
+      end
+    end
+
+    def admin_has_no_money
+      errors.add(:base, "The system doesn't have 
+          #{self.money} #{self.currency.symbol}, it has only 
+          #{self.reload.content} #{self.currency.symbol}.")
+    end
+
+    def user_has_no_money
+      errors.add(:base, "For this action you must have 
+          #{self.money} #{self.currency.symbol}, but you have only 
+          #{self.reload.content} #{self.currency.symbol}...")
+    end
+
+    def money_to_f
+      @money = @money.to_f unless @money.nil?
     end
 end

@@ -3,7 +3,8 @@ class CreateExchanges < ActiveRecord::Migration
     create_table :exchanges do |t|
       t.integer :bought_id
       t.integer :sold_id
-      t.float :rate
+      t.float :bought_rate
+      t.float :sold_rate
 
       t.timestamps
     end

@@ -4,8 +4,6 @@ class CreatePurses < ActiveRecord::Migration
       t.integer :user_id
       t.integer :currency_id
       t.float :content
-      t.float :put
-      t.float :output
 
       t.timestamps
     end

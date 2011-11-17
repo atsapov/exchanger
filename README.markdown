@@ -1,1 +1,4 @@
-To start run "bundle exec rake db:populate"
+To start run
+''' sh
+bundle exec rake db:populate"
+'''

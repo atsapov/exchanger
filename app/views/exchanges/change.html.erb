@@ -1,22 +1,25 @@
 <h1>Change</h1>
 
 <%= render 'rates_table' %>
+<p>For exchange you must have purses in bought and sold currencies.</p>
+
+<% [@purse_user_sold, @purse_admin_bought].each do |purse| %>
+  <%= render 'shared/error_messages', :object => purse unless purse.nil? %>
+<% end %>
 
 <%= form_for(@exchange, :url => up_change_path) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
   <div class="field">
     <%= f.label 'What currency you want buy?' %><br />
-    <% c_array = [] %>
-    <% Currency.all.each {|currency| c_array<<[currency.symbol, currency.id]} %>
-    <%= f.select(:bought_id, options_for_select(c_array)) %>
+    <%= f.select(:bought_id, options_for_select(user_currencies_array)) %>
   </div>
   <div class="field">
     <%= f.label 'How many?' %><br />
-    <%= f.text_field :rate %>
+    <%= f.text_field :money %>
   </div>
   <div class="field">
     <%= f.label 'What currency you want sell?' %><br />
-    <%= f.select(:sold_id, options_for_select(c_array)) %>
+    <%= f.select(:sold_id, options_for_select(user_currencies_array)) %>
   </div>
   <div class="actions">
     <%= f.submit "Change" %>
