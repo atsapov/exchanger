@@ -1,0 +1,8 @@
+%tr
+  %td= currency.symbol
+  - currency.bought.each do |bought|
+    %td= bought.find_exchange(currency).sold_rate
+  %td -
+  - currency.sold.each do |sold|
+    %td= currency.find_exchange(sold).bought_rate
+

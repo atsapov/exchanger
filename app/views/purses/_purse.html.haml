@@ -1,0 +1,7 @@
+%tr
+  %td= Currency.find(purse.currency_id).symbol
+  %td= purse.content
+  %td= link_to "Put", put_path(:id => purse)
+  %td= link_to "Output", output_path(:id => purse)
+  %td= link_to "delete", purse, :method => :delete
+

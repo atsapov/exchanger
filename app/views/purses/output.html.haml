@@ -1,0 +1,11 @@
+%h1 My purse
+
+= form_for(@purse, :url => up_output_path) do |f|
+  = render 'shared/error_messages', :object => f.object
+  .field
+    = f.label 'Output'
+    %br
+    = f.text_field :money
+  .actions
+    = f.submit "Output"
+

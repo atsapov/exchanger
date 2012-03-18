@@ -1,0 +1,13 @@
+%header
+  %nav.round
+    %ul
+      %li= link_to "Home", root_path
+      - if signed_in?
+        %li= link_to "My purses", purses_path
+        %li= link_to "Exchange currency", change_path
+        %li= link_to "Sign out", signout_path, :method => :delete
+      - else
+        %li= link_to "Rates", exchanges_path
+        %li= link_to "Sign in", signin_path
+        %li= link_to "Sign up", signup_path
+

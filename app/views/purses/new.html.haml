@@ -1,0 +1,13 @@
+%h1 New purse
+
+= form_for(@purse) do |f|
+  = render 'shared/error_messages', :object => f.object
+  .field
+    = f.label 'Select the curency'
+    %br
+    = f.select(:currency_id, options_for_select(no_user_currencies_array))
+  .field
+    = f.hidden_field(:content, :value=>'0')
+  .actions
+    = f.submit "Create"
+

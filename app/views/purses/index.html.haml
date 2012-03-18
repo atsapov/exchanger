@@ -1,0 +1,8 @@
+%h1 My purses
+
+- if @purses.empty?
+  %p You have no purses.
+- else
+  %table= render @purses
+= link_to "Create a purse", new_purse_path
+

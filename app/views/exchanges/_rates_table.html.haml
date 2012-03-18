@@ -1,0 +1,7 @@
+%table
+  %tr
+    %td
+    - @currencies.each do |currency|
+      %td= currency.symbol
+  = render @currencies
+
